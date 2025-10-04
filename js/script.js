@@ -399,10 +399,50 @@ function debounce(func, wait, immediate) {
     };
 }
 
-// Enhanced scroll performance
+// Enhanced scroll performance with more features
 window.addEventListener('scroll', debounce(function() {
-    // Any scroll-based calculations that don't need to run on every scroll
+    // Progress indicator for page scroll
+    updateScrollProgress();
+    // Parallax effect for hero section
+    updateParallaxEffect();
 }, 10));
+
+// Scroll progress indicator
+function updateScrollProgress() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    
+    // Create progress bar if it doesn't exist
+    let progressBar = document.getElementById('scroll-progress');
+    if (!progressBar) {
+        progressBar = document.createElement('div');
+        progressBar.id = 'scroll-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+    }
+    
+    progressBar.style.width = scrolled + '%';
+}
+
+// Parallax effect for hero section
+function updateParallaxEffect() {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        const rate = scrolled * -0.5;
+        hero.style.transform = `translateY(${rate}px)`;
+    }
+}
 
 // Project card hover effects
 function initProjectHoverEffects() {
@@ -575,3 +615,175 @@ function initPerformanceMonitoring() {
 
 // Initialize performance monitoring
 initPerformanceMonitoring();
+
+// Advanced Timeline Animations
+function initAdvancedTimelineAnimations() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    
+                    // Add stagger effect
+                    const content = entry.target.querySelector('.timeline-content');
+                    if (content) {
+                        content.style.animation = 'slideInFromSide 0.8s ease forwards';
+                    }
+                }, index * 200);
+                
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    timelineItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(50px)';
+        observer.observe(item);
+    });
+}
+
+// Text reveal animation
+function initTextRevealAnimation() {
+    const textElements = document.querySelectorAll('.timeline-content p');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const text = entry.target;
+                const words = text.innerHTML.split(' ');
+                text.innerHTML = words.map((word, index) => 
+                    `<span style="animation-delay: ${index * 0.1}s" class="word-reveal">${word}</span>`
+                ).join(' ');
+                
+                observer.unobserve(text);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    textElements.forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// Initialize advanced features
+initAdvancedTimelineAnimations();
+initTextRevealAnimation();
+
+// Add dynamic CSS animations
+function addAdvancedKeyframes() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInFromSide {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes wordReveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .word-reveal {
+            display: inline-block;
+            animation: wordReveal 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(6, 182, 212, 0.6);
+            }
+        }
+        
+        .timeline-content:hover {
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .timeline-role {
+            background: linear-gradient(270deg, var(--secondary), var(--accent), var(--secondary));
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: backgroundShift 3s ease infinite;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize advanced styling
+addAdvancedKeyframes();
+
+// Smart loading with skeleton screens
+function initSmartLoading() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                element.classList.add('loaded');
+                element.classList.remove('skeleton');
+                observer.unobserve(element);
+            }
+        });
+    });
+    
+    // Add skeleton effect to timeline items initially
+    const timelineContents = document.querySelectorAll('.timeline-content');
+    timelineContents.forEach(content => {
+        content.classList.add('skeleton');
+        observer.observe(content);
+    });
+}
+
+// Enhanced error handling
+window.addEventListener('error', function(e) {
+    console.error('Portfolio Error:', {
+        message: e.message,
+        source: e.filename,
+        line: e.lineno,
+        column: e.colno,
+        error: e.error
+    });
+});
+
+// Service Worker for offline functionality (if supported)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+
+// Initialize smart loading
+initSmartLoading();
