@@ -347,6 +347,46 @@ header.scrolled {
     animation: underlineExpand 1s ease-out 1.5s forwards;
 }
 
+/* Hero Subtitle Styling */
+.hero-subtitle {
+    margin: 10px 0 20px;
+    opacity: 0;
+    animation: fadeInUp 1.2s ease-out 1.2s forwards;
+}
+
+.typewriter {
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--secondary);
+    border-right: 2px solid var(--secondary);
+    padding-right: 3px;
+    animation: typewriter 3s steps(26) 2s forwards, blink 0.8s infinite 2s;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 26ch; /* Adjust based on character count of "Technical Support Specialist" */
+    }
+}
+
+@keyframes blink {
+    0%, 50% {
+        border-color: var(--secondary);
+    }
+    51%, 100% {
+        border-color: transparent;
+    }
+}
+
 .hero p {
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.1rem;
@@ -354,7 +394,7 @@ header.scrolled {
     margin: 0 auto 25px;
     opacity: 0;
     transform: translateY(30px);
-    animation: heroTextSlideIn 1.2s ease-out 1s forwards;
+    animation: heroTextSlideIn 1.2s ease-out 2.5s forwards;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     line-height: 1.5;
 }
@@ -365,11 +405,11 @@ header.scrolled {
     gap: 20px;
     opacity: 0;
     transform: translateY(30px);
-    animation: heroButtonsSlideIn 1.2s ease-out 1.5s forwards;
+    animation: heroButtonsSlideIn 1.2s ease-out 3s forwards;
 }
 
 .hero-btns .btn:nth-child(1) {
-    animation-delay: 2s;
+    animation-delay: 3.2s;
     animation-name: heroButtonsSlideIn, floatLeft;
     animation-duration: 1.2s, 3s;
     animation-timing-function: ease-out, ease-in-out;
@@ -378,7 +418,7 @@ header.scrolled {
 }
 
 .hero-btns .btn:nth-child(2) {
-    animation-delay: 2.2s;
+    animation-delay: 3.4s;
     animation-name: heroButtonsSlideIn, floatRight;
     animation-duration: 1.2s, 3.5s;
     animation-timing-function: ease-out, ease-in-out;
@@ -406,6 +446,10 @@ header.scrolled {
     .hero h1 {
         font-size: 2rem;
         margin-bottom: 10px;
+    }
+    
+    .typewriter {
+        font-size: 1.1rem;
     }
     
     .hero p {
@@ -436,8 +480,52 @@ header.scrolled {
         font-size: 1.8rem;
     }
     
+    .typewriter {
+        font-size: 1rem;
+        width: 24ch !important; /* Adjust for smaller screens */
+    }
+    
     .hero p {
         font-size: 0.95rem;
+    }
+}
+
+/* About Me Buttons */
+.about-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.about-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.about-buttons .btn i {
+    font-size: 0.9rem;
+}
+
+.about-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive for about buttons */
+@media (max-width: 600px) {
+    .about-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .about-buttons .btn {
+        width: fit-content;
+        min-width: 160px;
     }
 }
 
