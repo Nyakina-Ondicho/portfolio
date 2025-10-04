@@ -234,10 +234,13 @@ header.scrolled {
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
     color: white;
-    padding: 150px 0 100px;
+    padding: 120px 0 80px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
 }
 
 @keyframes gradientShift {
@@ -279,30 +282,81 @@ header.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" fill="%23ffffff" opacity="0.1"/></svg>');
-    background-size: cover;
-    background-position: center;
+    background: radial-gradient(circle at 20% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+    animation: particleFloat 20s ease-in-out infinite;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(0, 217, 255, 0.4), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255, 107, 53, 0.3), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.2), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(0, 217, 255, 0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: twinkle 4s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes particleFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-30px) rotate(1deg); }
+    66% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 .hero-content {
     position: relative;
     z-index: 1;
+    width: 100%;
 }
 
 .hero h1 {
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    animation: heroTitleSlideIn 1.2s ease-out 0.5s forwards;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-size: 2.5rem;
+}
+
+.hero h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--accent));
+    animation: underlineExpand 1s ease-out 1.5s forwards;
 }
 
 .hero p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.2rem;
-    max-width: 700px;
-    margin: 0 auto 30px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    max-width: 650px;
+    margin: 0 auto 25px;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    animation: heroTextSlideIn 1.2s ease-out 1s forwards;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    line-height: 1.5;
 }
 
 .hero-btns {
@@ -310,27 +364,195 @@ header.scrolled {
     justify-content: center;
     gap: 20px;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    animation: heroButtonsSlideIn 1.2s ease-out 1.5s forwards;
+}
+
+.hero-btns .btn:nth-child(1) {
+    animation-delay: 2s;
+    animation-name: heroButtonsSlideIn, floatLeft;
+    animation-duration: 1.2s, 3s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    animation-fill-mode: forwards, none;
+}
+
+.hero-btns .btn:nth-child(2) {
+    animation-delay: 2.2s;
+    animation-name: heroButtonsSlideIn, floatRight;
+    animation-duration: 1.2s, 3.5s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    animation-fill-mode: forwards, none;
+}
+
+@keyframes floatLeft {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes floatRight {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Responsive adjustments for hero */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 50vh;
+        padding: 100px 0 60px;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        margin: 0 auto 20px;
+        max-width: 90%;
+    }
+    
+    .hero-btns {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .hero .btn {
+        width: 200px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 45vh;
+        padding: 80px 0 50px;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+    }
+}
+
+@keyframes heroTitleSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroTextSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroButtonsSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes underlineExpand {
+    to {
+        width: 120px;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.02) rotate(0.5deg);
+    }
+}
+
+.hero-content {
+    animation: breathe 8s ease-in-out infinite;
 }
 
 .hero .btn {
-    background-color: white;
+    background: linear-gradient(135deg, white, #f8fafc);
     color: var(--primary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.hero .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.hero .btn:hover::before {
+    left: 100%;
 }
 
 .hero .btn:hover {
-    background-color: var(--light);
+    background: linear-gradient(135deg, #f8fafc, white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .hero .btn-outline {
-    background-color: transparent;
+    background: transparent;
     border: 2px solid white;
     color: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hero .btn-outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.hero .btn-outline:hover::before {
+    width: 100%;
 }
 
 .hero .btn-outline:hover {
-    background-color: white;
+    background: white;
     color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
 }
 
 /* CV Download Section */

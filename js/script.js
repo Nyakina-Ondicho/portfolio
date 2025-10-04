@@ -134,16 +134,7 @@ function initAnimations() {
         });
     }, { threshold: 0.1 });
 
-    // Observe elements that need animation
-    document.querySelectorAll('.hero h1, .hero p, .hero-btns').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.6s ease';
-        setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        }, 200);
-    });
+    // Hero animations are now handled by CSS
 
     document.querySelectorAll('.project-card').forEach(card => {
         card.style.opacity = '0';
